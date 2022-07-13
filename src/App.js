@@ -85,6 +85,9 @@ function App() {
 
         <div className='d-flex'>
           <div className='card'>
+            <div className='favorite'>
+              <img src='/img/unliked.svg' alt='unliked' />
+            </div>
             <img
               src='/img/sneakers/1.jpg'
               alt='Sneakers'
