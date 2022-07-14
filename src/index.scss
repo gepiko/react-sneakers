@@ -121,14 +121,11 @@ header {
 
   .items {
     overflow: auto;
+    flex: 1;
   }
 
   h2 {
     margin: 0;
-  }
-
-  .items {
-    flex: 1;
   }
 }
 
