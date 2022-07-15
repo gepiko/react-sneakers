@@ -1,8 +1,53 @@
+import React from 'react'
 import Card from './components/Card'
 import Drawer from './components/Drawer'
 import Header from './components/Header'
 
 function App() {
+  const items = [
+    {
+      id: 1,
+      title: 'Мужские Кроссовки Nike Blazer Mid Suede',
+      price: 12999,
+      imageUrl: 'img/sneakers/1.jpg',
+    },
+    {
+      id: 2,
+      title: 'Мужские Кроссовки Nike Air Max 270',
+      price: 15600,
+      imageUrl: 'img/sneakers/2.jpg',
+    },
+    {
+      id: 3,
+      title: 'Мужские Кроссовки Nike Blazer Mid Suede',
+      price: 8499,
+      imageUrl: 'img/sneakers/3.jpg',
+    },
+    {
+      id: 4,
+      title: 'Кроссовки Puma X Aka Boku Future Rider',
+      price: 8999,
+      imageUrl: 'img/sneakers/4.jpg',
+    },
+    {
+      id: '5',
+      title: 'Кроссовки Future Rider',
+      price: 16999,
+      imageUrl: 'img/sneakers/5.jpg',
+    },
+    {
+      id: '6',
+      title: 'Кроссовки Black Edition',
+      price: 16999,
+      imageUrl: 'img/sneakers/6.jpg',
+    },
+    {
+      id: '7',
+      title: 'Кроссовки Orange Boomb Edition',
+      price: 7499,
+      imageUrl: 'img/sneakers/7.jpg',
+    },
+  ]
   return (
     <div className='wrapper clear'>
       <Drawer />
@@ -32,8 +77,14 @@ function App() {
         </div>
 
         <div className='d-flex'>
-          <Card />
-          <Card />
+          {items.map((item) => (
+            <Card
+              key={item.id}
+              title={item.title}
+              imageUrl={item.imageUrl}
+              price={item.price}
+            />
+          ))}
         </div>
       </div>
     </div>
