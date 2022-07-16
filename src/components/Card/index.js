@@ -1,9 +1,10 @@
 import React from 'react'
+import styles from './Card.module.scss'
 
 const Card = ({ title, imageUrl, price }) => {
   return (
-    <div className='card'>
-      <div className='favorite'>
+    <div className={styles.card}>
+      <div className={styles.favorite}>
         <img src='/img/unliked.svg' alt='unliked' />
       </div>
       <img src={imageUrl} alt='Sneakers' width={133} height={112} />
