@@ -1,13 +1,18 @@
 import React from 'react'
 import styles from './Drawer.module.scss'
 
-const Drawer = () => {
+const Drawer = ({ onClose }) => {
   return (
-    <div style={{ display: 'none' }} className='overlay'>
+    <div className='overlay'>
       <div className={styles.drawer}>
         <h2 className='d-flex justify-between mb-30'>
           Корзина{' '}
-          <img className='cu-p' src='/img/btn-remove.svg' alt='Remove' />
+          <img
+            onClick={onClose}
+            className='cu-p'
+            src='/img/btn-remove.svg'
+            alt='Remove'
+          />
         </h2>
 
         <div className='items'>
