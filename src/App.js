@@ -8,17 +8,24 @@ import Header from './components/Header'
 
 function App() {
   const [items, setItems] = React.useState([])
+  const [cartItems, setCartItems] = React.useState([])
   const [isCartOpened, setIsCartOpened] = React.useState(false)
 
   React.useEffect(() => {
     axios
       .get('https://62d2b2bf81cb1ecafa643d83.mockapi.io/items')
-      .then((data) => console.log(data))
+      .then((res) => setItems(res.data))
   }, [])
+
+  const onAddToCart = (obj) => {
+    setCartItems((prev) => [...prev, obj])
+  }
 
   return (
     <div className='wrapper clear'>
-      {isCartOpened && <Drawer onClose={() => setIsCartOpened(false)} />}
+      {isCartOpened && (
+        <Drawer items={cartItems} onClose={() => setIsCartOpened(false)} />
+      )}
 
       <Header onCLickCart={() => setIsCartOpened(true)} />
 
@@ -48,9 +55,12 @@ function App() {
           {items.map((item) => (
             <Card
               key={item.id}
+              id={item.id}
               title={item.title}
               imageUrl={item.imageUrl}
               price={item.price}
+              onFavorite={() => console.log('Added to bookmarks')}
+              onPlus={onAddToCart}
             />
           ))}
         </div>

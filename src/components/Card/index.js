@@ -1,12 +1,17 @@
 import React from 'react'
 import styles from './Card.module.scss'
 
-const Card = ({ title, imageUrl, price }) => {
+const Card = ({ title, imageUrl, price, id, onFavorite, onPlus }) => {
   const [isAdded, setIsAdded] = React.useState(false)
+
+  const onClickPlus = () => {
+    onPlus({ title, imageUrl, price, id })
+    setIsAdded(!isAdded)
+  }
 
   return (
     <div className={styles.card}>
-      <div className={styles.favorite}>
+      <div className={styles.favorite} onClick={onFavorite}>
         <img src='/img/unliked.svg' alt='unliked' />
       </div>
       <img src={imageUrl} alt='Sneakers' width={133} height={112} />
@@ -18,7 +23,7 @@ const Card = ({ title, imageUrl, price }) => {
         </div>
         <img
           className={styles.plus}
-          onClick={() => setIsAdded(!isAdded)}
+          onClick={onClickPlus}
           src={isAdded ? '/img/btn-checked.svg' : '/img/btn-plus.svg'}
           alt='Plus'
         />
