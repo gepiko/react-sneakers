@@ -18,7 +18,16 @@ function App() {
   }, [])
 
   const onAddToCart = (obj) => {
-    setCartItems((prev) => [...prev, obj])
+    const existingCartItem = cartItems.find(
+      (cartItem) => cartItem.id === obj.id,
+    )
+
+    if (existingCartItem) {
+      return cartItems.map((cartItem) =>
+        cartItem.id === obj.id ? { ...cartItem } : cartItems,
+      )
+    }
+    return setCartItems([...cartItems, obj])
   }
 
   return (
