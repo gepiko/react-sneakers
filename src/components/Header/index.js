@@ -42,7 +42,7 @@ const Header = ({ onCLickCart }) => {
             />
           </svg>
 
-          <span>1205 руб.</span>
+          <span> 1205 руб.</span>
         </li>
         <li>
           <svg

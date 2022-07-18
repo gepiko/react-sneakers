@@ -9,6 +9,7 @@ import Header from './components/Header'
 function App() {
   const [items, setItems] = React.useState([])
   const [cartItems, setCartItems] = React.useState([])
+  const [searchValue, setSearchValue] = React.useState('')
   const [isCartOpened, setIsCartOpened] = React.useState(false)
 
   React.useEffect(() => {
@@ -30,6 +31,9 @@ function App() {
     return setCartItems([...cartItems, obj])
   }
 
+  const onChangeSearchInput = (e) => {
+    setSearchValue(e.target.value)
+  }
   return (
     <div className='wrapper clear'>
       {isCartOpened && (
@@ -40,7 +44,9 @@ function App() {
 
       <div className='content p-40'>
         <div className='d-flex align-center justify-between mb-40'>
-          <h1>Все кроссовки</h1>
+          <h1>
+            {searchValue ? `Поиск по запросу ${searchValue}` : 'Все кроссовки'}
+          </h1>
           <div className='searchBlock'>
             <svg
               width='16'
@@ -56,22 +62,31 @@ function App() {
                 strokeLinecap='round'
               />
             </svg>
-            <input type='search' placeholder='Поиск...' />
+            <input
+              onChange={onChangeSearchInput}
+              type='search'
+              placeholder='Поиск...'
+              value={searchValue}
+            />
           </div>
         </div>
 
         <div className='d-flex flex-wrap'>
-          {items.map((item) => (
-            <Card
-              key={item.id}
-              id={item.id}
-              title={item.title}
-              imageUrl={item.imageUrl}
-              price={item.price}
-              onFavorite={() => console.log('Added to bookmarks')}
-              onPlus={onAddToCart}
-            />
-          ))}
+          {items
+            .filter((item) =>
+              item.title.toLowerCase().includes(searchValue.toLowerCase()),
+            )
+            .map((item) => (
+              <Card
+                key={item.id}
+                id={item.id}
+                title={item.title}
+                imageUrl={item.imageUrl}
+                price={item.price}
+                onFavorite={() => console.log('Added to bookmarks')}
+                onPlus={onAddToCart}
+              />
+            ))}
         </div>
       </div>
     </div>
