@@ -16,6 +16,9 @@ function App() {
     axios
       .get('https://62d2b2bf81cb1ecafa643d83.mockapi.io/items')
       .then((res) => setItems(res.data))
+    axios
+      .get('https://62d2b2bf81cb1ecafa643d83.mockapi.io/cart')
+      .then((res) => setCartItems(res.data))
   }, [])
 
   const onAddToCart = (obj) => {
@@ -28,6 +31,7 @@ function App() {
         cartItem.id === obj.id ? { ...cartItem } : cartItems,
       )
     }
+    axios.post('https://62d2b2bf81cb1ecafa643d83.mockapi.io/cart', obj)
     return setCartItems([...cartItems, obj])
   }
 
