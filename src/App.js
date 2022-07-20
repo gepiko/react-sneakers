@@ -9,6 +9,7 @@ import Header from './components/Header'
 function App() {
   const [items, setItems] = React.useState([])
   const [cartItems, setCartItems] = React.useState([])
+  const [favorites, setFavorites] = React.useState([])
   const [searchValue, setSearchValue] = React.useState('')
   const [isCartOpened, setIsCartOpened] = React.useState(false)
 
@@ -40,9 +41,15 @@ function App() {
     return setCartItems((prev) => prev.filter((item) => item.id !== id))
   }
 
+  const onAddToFavorite = (obj) => {
+    axios.post(`https://62d2b2bf81cb1ecafa643d83.mockapi.io/favorites/`, obj)
+    setFavorites((prev) => [...prev, obj])
+  }
+
   const onChangeSearchInput = (e) => {
     setSearchValue(e.target.value)
   }
+
   return (
     <div className='wrapper clear'>
       {isCartOpened && (
@@ -96,8 +103,8 @@ function App() {
                 title={item.title}
                 imageUrl={item.imageUrl}
                 price={item.price}
-                onFavorite={() => console.log('Added to bookmarks')}
-                onPlus={onAddToCart}
+                onHeart={(obj) => onAddToFavorite(obj)}
+                onPlus={(obj) => onAddToCart(obj)}
               />
             ))}
         </div>
