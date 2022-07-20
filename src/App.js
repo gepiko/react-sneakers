@@ -36,7 +36,7 @@ function App() {
   }
 
   const onRemoveItem = (id) => {
-    // axios.delete(`https://62d2b2bf81cb1ecafa643d83.mockapi.io/cart${id}`)
+    axios.delete(`https://62d2b2bf81cb1ecafa643d83.mockapi.io/cart/${id}`)
     return setCartItems((prev) => prev.filter((item) => item.id !== id))
   }
 
