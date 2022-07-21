@@ -11,7 +11,7 @@ const Home = ({
   onAddToCart,
 }) => {
   return (
-    <div className='content p-20'>
+    <div className='content p-40'>
       <div className='d-flex align-center justify-between mb-40'>
         <h1>
           {searchValue ? `Поиск по запросу ${searchValue}` : 'Все кроссовки'}
@@ -40,7 +40,7 @@ const Home = ({
         </div>
       </div>
 
-      <div className='d-flex flex-wrap justify-evenly'>
+      <div className='d-flex flex-wrap justify-between'>
         {items
           .filter((item) =>
             item.title.toLowerCase().includes(searchValue.toLowerCase()),
@@ -48,12 +48,9 @@ const Home = ({
           .map((item) => (
             <Card
               key={item.id}
-              id={item.id}
-              title={item.title}
-              imageUrl={item.imageUrl}
-              price={item.price}
               onHeart={(obj) => onAddToFavorite(obj)}
               onPlus={(obj) => onAddToCart(obj)}
+              {...item}
             />
           ))}
       </div>
