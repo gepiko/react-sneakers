@@ -9,8 +9,9 @@ const Card = ({
   onHeart,
   onPlus,
   favorited = false,
+  added = false,
 }) => {
-  const [isAdded, setIsAdded] = React.useState(false)
+  const [isAdded, setIsAdded] = React.useState(added)
   const [isFavorite, setIsFavorite] = React.useState(favorited)
 
   const onClickPlus = () => {
