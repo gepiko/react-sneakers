@@ -4,9 +4,7 @@ import Card from '../components/Card'
 
 const Home = ({
   items,
-  cartItems,
   searchValue,
-  setSearchValue,
   onChangeSearchInput,
   onAddToFavorite,
   onAddToCart,
@@ -21,7 +19,6 @@ const Home = ({
         key={item?.id}
         onHeart={(obj) => onAddToFavorite(obj)}
         onPlus={(obj) => onAddToCart(obj)}
-        added={cartItems.some((obj) => Number(obj.id) === Number(item.id))}
         loading={isLoading}
         {...item}
       />
