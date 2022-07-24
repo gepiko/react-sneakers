@@ -10,7 +10,24 @@ const Home = ({
   onChangeSearchInput,
   onAddToFavorite,
   onAddToCart,
+  isLoading,
 }) => {
+  const renderItems = () => {
+    const filteredItems = items.filter((item) =>
+      item.title.toLowerCase().includes(searchValue.toLowerCase()),
+    )
+    return (isLoading ? [...Array(7)] : filteredItems).map((item) => (
+      <Card
+        key={item?.id}
+        onHeart={(obj) => onAddToFavorite(obj)}
+        onPlus={(obj) => onAddToCart(obj)}
+        added={cartItems.some((obj) => Number(obj.id) === Number(item.id))}
+        loading={isLoading}
+        {...item}
+      />
+    ))
+  }
+
   return (
     <div className='content p-40'>
       <div className='d-flex align-center justify-between mb-40'>
@@ -41,24 +58,7 @@ const Home = ({
         </div>
       </div>
 
-      <div className='d-flex flex-wrap justify-between'>
-        {items
-          .filter((item) =>
-            item.title.toLowerCase().includes(searchValue.toLowerCase()),
-          )
-          .map((item) => (
-            <Card
-              key={item.id}
-              onHeart={(obj) => onAddToFavorite(obj)}
-              onPlus={(obj) => onAddToCart(obj)}
-              added={cartItems.some(
-                (obj) => Number(obj.id) === Number(item.id),
-              )}
-              loading={false}
-              {...item}
-            />
-          ))}
-      </div>
+      <div className='d-flex flex-wrap justify-between'>{renderItems()}</div>
     </div>
   )
 }
