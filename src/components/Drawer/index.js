@@ -7,25 +7,43 @@ import Info from '../Info'
 
 import styles from './Drawer.module.scss'
 
+// Delay is for deleting items from mockapi, so that it won't ban me
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
 const Drawer = ({ onClose, onRemove, items = [] }) => {
   const { cartItems, setCartItems } = React.useContext(AppContext)
 
   const [orderId, setOrderId] = React.useState(null)
   const [isOrderComplete, setIsOrderComplete] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false)
 
   const onClickOrder = async () => {
     try {
+      setIsLoading(true)
       const { data } = await axios.post(
         'https://62d2b2bf81cb1ecafa643d83.mockapi.io/orders',
-        cartItems,
+        { items: cartItems },
       )
       setOrderId(data.id)
       setIsOrderComplete(true)
       setCartItems([])
+
+      // I need to delete items after I order something
+      // But mockapi don't have replace
+      // So I can't just do this: await axios.put('/cart', [])
+      // That's why I have this crutch ...
+      for (let i = 0; i < cartItems.length; i++) {
+        const item = cartItems[i]
+        await axios.delete(
+          'https://62d2b2bf81cb1ecafa643d83.mockapi.io/cart/' + item.id,
+        )
+        await delay(1000)
+      }
     } catch (error) {
-      alert('Не удалось создать заказ ...')
+      alert('Ошибка при создании заказа ...')
       console.log(error)
     }
+    setIsLoading(false)
   }
 
   return (
@@ -79,7 +97,11 @@ const Drawer = ({ onClose, onRemove, items = [] }) => {
                   <b>1074 руб.</b>
                 </li>
               </ul>
-              <button onClick={onClickOrder} className='greenButton'>
+              <button
+                disabled={isLoading}
+                onClick={onClickOrder}
+                className='greenButton'
+              >
                 Оформить заказ <img src='/img/arrow.svg' alt='Arrow' />
               </button>
             </div>
