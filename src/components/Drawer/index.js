@@ -1,7 +1,33 @@
 import React from 'react'
+import axios from 'axios'
+
+import AppContext from '../../context'
+
+import Info from '../Info'
+
 import styles from './Drawer.module.scss'
 
 const Drawer = ({ onClose, onRemove, items = [] }) => {
+  const { cartItems, setCartItems } = React.useContext(AppContext)
+
+  const [orderId, setOrderId] = React.useState(null)
+  const [isOrderComplete, setIsOrderComplete] = React.useState(false)
+
+  const onClickOrder = async () => {
+    try {
+      const { data } = await axios.post(
+        'https://62d2b2bf81cb1ecafa643d83.mockapi.io/orders',
+        cartItems,
+      )
+      setOrderId(data.id)
+      setIsOrderComplete(true)
+      setCartItems([])
+    } catch (error) {
+      alert('Не удалось создать заказ ...')
+      console.log(error)
+    }
+  }
+
   return (
     <div className='overlay'>
       <div className={styles.drawer}>
@@ -53,23 +79,25 @@ const Drawer = ({ onClose, onRemove, items = [] }) => {
                   <b>1074 руб.</b>
                 </li>
               </ul>
-              <button className='greenButton'>
+              <button onClick={onClickOrder} className='greenButton'>
                 Оформить заказ <img src='/img/arrow.svg' alt='Arrow' />
               </button>
             </div>
           </>
         ) : (
-          <div className='cartEmpty d-flex align-center justify-center flex-column flex'>
-            <img src='/img/empty-cart.jpg' alt='Empty Cart' className='mb-20' />
-            <h2>Корзина пустая</h2>
-            <p className='opacity-6'>
-              Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.
-            </p>
-            <button onClick={onClose} className='greenButton'>
-              <img src='/img/arrow.svg' alt='Arrow' />
-              Вернуться назад
-            </button>
-          </div>
+          <Info
+            title={isOrderComplete ? 'Заказ оформлен' : 'Корзина пустая'}
+            image={
+              isOrderComplete
+                ? '/img/complete-order.jpg'
+                : '/img/empty-cart.jpg'
+            }
+            description={
+              isOrderComplete
+                ? `Ваш заказ #${orderId} скоро будет передан курьерской доставке!`
+                : 'Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.'
+            }
+          />
         )}
       </div>
     </div>
