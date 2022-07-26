@@ -8,8 +8,10 @@ import AppContext from './context'
 
 import Drawer from './components/Drawer'
 import Header from './components/Header'
+
 import Home from './pages/Home'
 import Favorites from './pages/Favorites'
+import Orders from './pages/Orders'
 
 function App() {
   const [items, setItems] = React.useState([])
@@ -101,6 +103,7 @@ function App() {
         favorites,
         isItemAdded,
         onAddToFavorite,
+        onAddToCart,
         setIsCartOpened,
         setCartItems,
       }}
@@ -132,10 +135,9 @@ function App() {
               />
             }
           />
-          <Route
-            path='/favorites'
-            element={<Favorites onAddToFavorite={onAddToFavorite} />}
-          />
+          <Route path='/favorites' element={<Favorites />} />
+
+          <Route path='/orders' element={<Orders />} />
         </Routes>
       </div>
     </AppContext.Provider>
