@@ -1,18 +1,17 @@
 import React from 'react'
 import axios from 'axios'
 
-import AppContext from '../../context'
-
 import Info from '../Info'
 
 import styles from './Drawer.module.scss'
+
+import { useCart } from '../../hooks/useCart'
 
 // Delay is for deleting items from mockapi, so that it won't ban me
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 const Drawer = ({ onClose, onRemove, items = [] }) => {
-  const { cartItems, setCartItems } = React.useContext(AppContext)
-
+  const { cartItems, setCartItems, totalPrice } = useCart()
   const [orderId, setOrderId] = React.useState(null)
   const [isOrderComplete, setIsOrderComplete] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
@@ -89,12 +88,12 @@ const Drawer = ({ onClose, onRemove, items = [] }) => {
                 <li>
                   <span>Итого:</span>
                   <div></div>
-                  <b>21 498 руб.</b>
+                  <b>{totalPrice} руб.</b>
                 </li>
                 <li>
                   <span>Налог 5%:</span>
                   <div></div>
-                  <b>1074 руб.</b>
+                  <b>{(totalPrice / 100) * 5} руб.</b>
                 </li>
               </ul>
               <button
